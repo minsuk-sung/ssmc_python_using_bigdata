@@ -1,5 +1,8 @@
 related_doc/*
 
+.DS_Store
+./*/.DS_Store
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
