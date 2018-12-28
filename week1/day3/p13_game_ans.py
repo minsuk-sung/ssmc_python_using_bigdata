@@ -18,6 +18,11 @@
 #   1) 입력하지 않으면  '게임 제목이 입력되지 않았습니다. 다시 입력하세요.' 
 #   2) 많으면 에러 띄우고 '게임 제목이 28자를 초과합니다. 다시 입력하세요.'
 #   3) 28자 이내면 OK
+# 
+#   의도가 입력하지 않거나(or) 28자가 넘으면 '게임 입력이 부정확합니다' 라면
+#   if not game_title or len(game_title) > 28:
+#       print('게임 입력이 부정확합니다') 
+#   이런 식으로 작성해야한다.  
 while True: # 무한루프 반드시 break 를 사용해서 탈출해야함
     game_title = input('게임의 제목을 입력하세요.\n')
     # if len(game_title) == 0: 아래와 같은 경우
@@ -33,7 +38,19 @@ while True: # 무한루프 반드시 break 를 사용해서 탈출해야함
 # =              게임제목                  =
 # =              v 0.0.1                 = 
 # ========================================
-
+# TITLE_LEN = 30
+# print('='*TITLE_LEN)
+# txt = '={0:^%s}=' % (TITLE_LEN-2)
+# print(txt.format(game_title))
+# print(txt.format('v 1.0.0'))
+# print('='*TITLE_LEN)
+TITLE_LEN = 30
+print('='*TITLE_LEN)
+txt = '={0:^%s}=' % (TITLE_LEN-2)
+data = [game_title, 'v 1,0,0','THANK YOU']
+for t in data:
+    print(txt.format(t))
+print('='*TITLE_LEN)
 
 # STEP3
 # 게이머의 이름을 입력하세요
