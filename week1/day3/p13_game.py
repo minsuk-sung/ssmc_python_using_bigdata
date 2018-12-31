@@ -50,8 +50,9 @@ while player_name == '':
 # 숫자가 아닌 값을 넣으면 '경고 메세지' 다시 입력
 # 0보다 작거나, 100 이상의 값을 입력하면 '경고메세지' 다시 입력
 # 정상 범위에 있는 정수값을 입력하면 다음 단계 진행
+# break는 가장 가까운 반복문을 빠져나간다
 while True:
-    input_user_num = input('AI의 숫자를 입력하세요 : ')
+    input_user_num = input('AI의 숫자를 입력하세요 : ').strip()
     # 아무것도 입력하지 않았을 겨우
     if not input_user_num:
         print('0과 99사이의 숫자를 입력해주세요.')
@@ -62,17 +63,19 @@ while True:
             print('숫자를 입력해주세요.')
         # 입력된게 숫자인 경우
         else:
+            input_user_num = int(input_user_num)
             # 입력된 숫자가 원하는 범위에 없을 경우
-            if not (int(input_user_num) >= 0  and int(input_user_num) <= 99):
+            if not (input_user_num >= 0  and input_user_num <= 99):
                 print('0보다 작거나, 100 이상의 값을 입력해주세요.')
             # 입력된 숫자가 원하는 범위에 있을 경우
             else:
-                break
+                break 
 
 ##############################################################################
 # STEP5
 # AI는 숫자를 하나 생성한다 ( 랜덤 ) -> 1회만 생성
 # 즉 게임 한번이 종료될때까지 유지되어야 한다
+AI_RAND_NUM = random.randint(0,100)
 
 ##############################################################################
 # STEP6
@@ -80,6 +83,13 @@ while True:
 # 1) 입력값이 정답보다 작으면 => 작다라고 출력!
 # 2) 입력값이 정답보다 크면 => 크다고 출력!
 # 3) 입력값이 정답과 동일하면 => 정답! 축하메세지!
+if input_user_num > AI_RAND_NUM:
+    print('입력한 값보다 작습니다.')
+elif input_user_num < AI_RAND_NUM:
+    print('입력한 값보다 큽니다')
+else:
+    print('정답입니다!')
+
 
 ##############################################################################
 # STEP7

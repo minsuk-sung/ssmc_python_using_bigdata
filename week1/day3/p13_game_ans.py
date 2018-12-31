@@ -80,6 +80,19 @@ print(game_info)
 # 숫자가 아닌 값을 넣으면 '경고 메세지' 다시 입력 -> isnumeric()
 # 0보다 작거나, 100 이상의 값을 입력하면 '경고메세지' 다시 입력 -> or 쓰자
 # 정상 범위에 있는 정수값을 입력하면 다음 단계 진행
+while True:
+    # 공백 제거를 해서 오동작을 방지
+    game_input = input('AI의 숫자(0~99)를 입력하세요.\n').strip()
+    if not game_input: # 숫자를 넣지 않으면
+        print('입력을 정확하게 하세요')
+    elif not game_input.isnumeric(): #숫자가 아닌 값을 넣으면
+        print('0~99사이의 정수값을 입력하세요')
+    else:
+        tmp = int(game_input)
+        if tmp >= 0 and tmp < 100:
+            break
+        print('적절한 정수값을 입력하세요')
+print('한번 시도 했습니다.')
 
 # STEP5
 # AI는 숫자를 하나 생성한다 ( 랜덤 ) -> 1회만 생성
