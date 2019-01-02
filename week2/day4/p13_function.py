@@ -122,3 +122,38 @@ log('1')
 log('2')
 log('3')
 log('abc')
+
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+
+def setPerson(name,age = 30, weight = 70):
+    print('%s님의 나이는 %s, 몸무게는 %s이다' % (name,age,weight))
+
+setPerson('multi')
+setPerson('multi',age=20)
+setPerson('multi',age=25,weight=100)
+setPerson('multi',weight=19,age=25) # 기본값을 부여한 parameter들은 순서가 상관없음
+# setPerson(weight=100,age=20) -> name의 값이 없기 때문에 오류!!
+
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+
+# 사용 타이핑
+# 인터프리터 언어이기 때문에 먼저 정의된 후에 사용가능하다
+# test()
+def test():
+    print('this is test') 
+
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+
+a = 10 # 
+def check():
+    a = 11 # 함수 안에서 정의된 변수, 지역변수, 함수가 호출될때만 존재
+    # a가 글로벌 변수임을 지정하면 그때부터 a는 로컬변수가 아닌 전역변수를 가르키게 된다 
+check()
+print(a) # a = 10 ... why? 여기서 말하는 a는 check함수 안에서의 변수를 말하는게 아니니까
+
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+
+# 함수도 수행문이 하나면 옆으로 슬 수 있다
+def test1( x ): return x+'<='
+
+print(test1('hello'))
