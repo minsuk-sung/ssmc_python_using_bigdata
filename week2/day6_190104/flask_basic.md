@@ -36,3 +36,14 @@ pip install flask
 
 ### 웹 환경 이해
 클라이언트와 서버 간의 관계, 통신에 관련된 간략한 흐름을 알 수 있는 모델인 OSI 7 Layer
+
+## 3. 데이터베이스( DataBase )
+RDMBS <-> NoSQL
+
+RDMBS : 관계형 데이터 베이스 관리 시스템  
+SQL 공부해서 **쿼리(query)수행**하여 조작(**데이터 추가,삭제,수정,조회** : CRUD)
+ - 엔터급 : 오라클,MSSQL,오로라,...
+ - 개발급 : MySQL,마리아,...
+
+ NoSQL : JSON, log, BigData ... 추후에 정말 큰 데이터들은 이쪽으로 가야할 것
+  - 몽고DB
