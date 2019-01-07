@@ -14,9 +14,12 @@
             </thead>
             <tbody>
                 {% for item in items: %} <!-- 반복문을 이용 -->
+                    {# 이 주석은 클라이언트에게 보이면 안되는 주석 #}
+                    {# Dict의 값을 get으로 획득할 경우 누락시 None으로 보임
+                                그냥 인덱싱으로 할 경우 누락시엔 아무것도 안 보임 #}
                     <tr>
-                        <td>{{ item['rank'] }}</td>
-                        <td>{{ item['nation'] }}</td>
+                        <td>{{ item['rank1'] }}</td>
+                        <td>{{ item.get('nation1') }}</td> 
                     </tr>
                 {% endfor %}
             </tbody>
