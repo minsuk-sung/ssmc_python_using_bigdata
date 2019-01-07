@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!-- 주석은 이렇게!! -->
+<html>
+    <!-- 헤더 : 메타 정보(문서를 기술하는 정보) -->
+    <head></head>
+    <!-- 바디 : 화면에 보이는 내용 기술 -->
+    <body>
+        <!-- form 태그는 전송의 행위를 담당, 폼 안에 있는 input들을 읽어서 전달, 아무것도 안 쓰면 GET, 심지어 자기 자신으로
+            cf. 아작스 통신 : 비동기 통신, 백그라운드 통신 -->
+        <form action='/login' method = 'POST' >
+            <h2>Login Page</h2>
+            <!-- html에서 사용자 입력을 받는 tag는 input
+            이때, 데이터의 키에 해당되는 속성 : name
+            input 과 같이 하나의 tag로 구성해서 /로 끝나는게 단독태그 -->
+            <input type='text' name = 'uid' placeholder="ID" required autofocus/> <!-- 무조건 입력하게 만듬, 아니면 form 전송 안됨 -->
+            <br/> <!-- 줄바꿈 태그 -->
+            <input type='password' name = 'upw' placeholder="PW" required/>
+            <br/>
+            <input type='submit' value = login />
+        </form>
+    </body>
+</html>

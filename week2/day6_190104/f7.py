@@ -16,7 +16,7 @@ https://news.naver.com/main/read.nhn?
 oid=018&sid1=102&aid=0004285425&mid=shm&mode=LSD&nh=20190104133020
 
 1. 주소 : https://news.naver.com/main/read.nhn
-2. 물음표 : ?
+2. 물음표 : ? <- 기준이 물음표로 그 다음부터 키/값 순서로... 
 3. 데이터 : oid=018&sid1=102&aid=0004285425&mid=shm&mode=LSD&nh=20190104133020
 ''' 
 from flask import Flask, request

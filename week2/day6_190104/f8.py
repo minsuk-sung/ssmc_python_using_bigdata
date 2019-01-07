@@ -12,17 +12,19 @@
 #       여기까지만 하면 정적 페이지 
 #   3. JavaScript (50%)
 #       오퍼레이션 담당, 인터렉션(사용자와 주고받기)
-#       이벤트처리, 통신처리, 동적페이지 구성
+#       이벤트처리( 통신처리(ajax), 동적페이지(DHTML,DOM) 구성 )
 #       이걸 중심으로 웹페이지를 만드는 기술들
 #           - Angular js (구글)
 #           - React js (페이스북)
-#           - Vue (개발자 커뮤니티) 
+#           - Vue (개발자 커뮤니티)
+#       JavaScript Framework => JQuery 생산성이 향상됨
+#         
 # 
 # 1~3번을 관장하는 기관 : W3C
 # 
 # JS도 NodeJS하고 좀 다르다 언어는 같은데
 # NodeJS는 웹서버쪽 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 
 app = Flask(__name__)
 
@@ -47,9 +49,13 @@ def login():
 def loginProc():
     uid = request.args.get('uid')
     upw = request.args.get('upw')
+    # upw = request.args.get['upw'] #이렇게도 가능하다
     # 회원이면 =>  반갑습니다 m님
     if uid == 'm' and upw == '1':
-        return '환영합니다 %s님' % uid
+        # return '환영합니다 %s님' % uid
+        # 요청에 대해서 바로 응답하지 않고 다른 페이지로 요청을 던진다
+        # 세션 생성 => 로그인 햇음을 인지하는 방법, 사용자 정보를 저장하는 용도  
+        return redirect('/main') # 리다이렉팅( redirecting )
     # 회원이 아니면 => 아이디 혹은 비밀번호를 확인해주세요
     else: 
         return '''
@@ -62,5 +68,15 @@ def loginProc():
         # history.back() 은 방문기록을 뒤로 가게 하는 함수 
     #return uid,upw
 
-if __name__ == '__main__':
+# 메인 서비스 화면 ~/main
+# 화면 내용은 그냥 서비스 
+@app.route('/main')
+def main():
+    # 로그인을 해야지만 진입할 수 있는 페이지
+    # 로그인 여부를 판단할 수 있어야 필터가능 => 세션(session)
+    #  
+    return '서비스' 
+
+
+if __name__ == '__main__': # 이 코드를 메인으로 구동시 서버가동
     app.run(debug=True)
