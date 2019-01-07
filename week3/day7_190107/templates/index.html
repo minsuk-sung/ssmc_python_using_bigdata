@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        {{ items }}
+        <table border="1", cellspacing = "0">
+            <thead>
+                <!-- 한줄 -->
+                <tr>
+                    <!-- 한칸 -->
+                    <th>Rank</th>
+                    <th>Nation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items: %} <!-- 반복문을 이용 -->
+                    <tr>
+                        <td>{{ item['rank'] }}</td>
+                        <td>{{ item['nation'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
