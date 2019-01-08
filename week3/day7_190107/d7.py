@@ -37,5 +37,41 @@ def loginSql(uid,upw):
             connection.close()
         return row
 
+# 주식 종목 리스트 가져오기(코드기준 정렬)
+def selectTradeData():
+    connection = None
+    rows       = None # 주식정보들을 담는 변수
+    try:
+        connection = pms.connect(host='localhost', # 디비 주소
+                            user='root',      # 디비 접속 계정
+                            password='12341234', # 디지 접속 비번
+                            db='python_db',   # 데이터베이스 이름
+                            #port=3306,        # 포트     
+                            charset='utf8',
+                            cursorclass=pms.cursors.DictCursor) # 커서타입지정
+        # 쿼리수행
+        with connection.cursor() as cursor:            
+            sql    = '''
+                select 
+                    code, name, cur, high, low 
+                from 
+                    tbl_trade
+                order by code asc
+                limit 0, 10;
+            '''
+            cursor.execute( sql )
+            # 여러개 데이터를 다 가져올때
+            rows    = cursor.fetchall()            
+    except Exception as e:
+        print('->', e)
+        rows = None
+    finally:
+        if connection:
+            connection.close()
+    return rows
+
 if __name__ == '__main__':
-    loginSql('m','1')
+    print( '=>', loginSql( 'm', '1' ) )
+    rows = selectTradeData()
+    if rows:print( rows)
+    else:   print('데이터가 없다')

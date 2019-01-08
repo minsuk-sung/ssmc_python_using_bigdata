@@ -26,6 +26,22 @@ https://www.sequelpro.com/
 비번바꿀때
 alter user 'root'@'localhost' identified with mysql_native_password by '12341234';
 
+CREATE TABLE `users` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '고유번호',
+	`uid` VARCHAR(50) NOT NULL COMMENT '아이디',
+	`upw` VARCHAR(50) NOT NULL COMMENT '비밀번호 암호화안함',
+	`name` VARCHAR(50) NOT NULL COMMENT '이름',
+	`regdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '가입일',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `uid` (`uid`)
+)
+COMMENT='회원테이블'
+ENGINE=InnoDB
+;
+
+INSERT INTO `python_db`.`users` (`uid`, `upw`, `name`, `regdate`) VALUES ('m', '1', '멀티', '2019-01-07 14:14:23');
+INSERT INTO `python_db`.`users` (`uid`, `upw`, `name`, `regdate`) VALUES ('m2', '2', '멀티2', '2019-01-07 14:14:23');
+
 Python에서 MySQL 접금 및 쿼리 수행
 Flask 자체 모듈도 있지만, MySQL 전용 담당 모듈도 존재한다
 여기서는 PyMySQL 사용!

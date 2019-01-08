@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        {# 검색창 #}
+        <div>
+            <fieldset> {# 공간을 좀 주기 위해서 #}
+                <form method="POST"> {# 주소가 필요함 #}
+                    <input type = 'text' name="keyword" placeholder="종목이름으로 입력하세요." autofocus/>
+                    <input type = "submit" value="검색"/>
+                </form>
+                {# 검색결과는 id가 result인 요소의 자식으로 들어간다 #}
+                <div id="result">
+                    
+                </div>
+            </fieldset>
+        </div>
+
+        {# 쿼리문에서 가져온 데이터 #}
+        <div>
+            <table border="1" cellspacing = "0" width = "100%">
+                <caption>주식목록</caption>
+                <thead>
+                    {# 코드 이름 현재가 상한가 최저가 #}
+                    <th>코드</th>
+                    <th>이름</th>
+                    <th>현재가</th>
+                    <th>상한가</th>
+                    <th>최저가</th>
+                </thead>
+                <tbody>
+                    {% for trade in trades %}
+                        <tr>
+                            <td>{{trade['code']}}</td>
+                            <td>{{trade['name']}}</td>
+                            <td>{{trade['cur']}}</td>
+                            <td>{{trade['high']}}</td>
+                            <td>{{trade['low']}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
