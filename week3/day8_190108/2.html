@@ -1,0 +1,35 @@
+<!-- html 파일 => html 문서 => 문서 -->
+<html>
+    <head>
+        <!-- jQuery 설치
+            1. jquery.com 접속
+            2. Download 들어가서
+            3. CDN 검색
+            4. Google CDN
+            5. 3.x 버전 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script> // 자바스크립트 영역
+            console.log('1');
+            // jQuery에서는 $(셀렉터를 기술) => 요소를 의미
+            // $(document) // html 문서전체를 의미함
+            $(document).ready( function cb(){
+                // 이 영역이 화면을 구성할 수 있는 위치
+                // 동적 구성의 위치
+                alert('호출');
+                console.log('2'); // 제일 마지막에 수행됨
+            } ); // 문서가 준비되었다면(문서가 화면에 보이기 직전) 자동호출, 이때 뭔가를 하고 싶다면 매개변수로 뭔가를 넣어라
+            alert('호출2');
+            console.log('3');
+        </script>
+    </head>
+    <body>
+        <!-- # 텍스트를 적는 태그 # -->
+        <p>4</p>
+        <!-- 자바스크립트는 head이든 body로 들어갈 수 있음 # -->
+        <script>
+            console.log('5');
+            // 이 영역이 화면을 구성할 수 있는 위치
+            // html에서 가장 마지막 위치 body
+        </script>
+    </body>
+</html>

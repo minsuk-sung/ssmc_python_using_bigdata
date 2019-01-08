@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+            $(document).ready( function cb(){
+
+            } ); 
+        </script>
+    </head>
+    <body>
+        <!-- CSS Selector의 기본 -->
+        <p>abc</p>
+        <div>123</div>
+        <span id='mul' class='s1'>456</span>
+        <div class='s1'>789</div>
+        <script>
+            // 1. * : 모든 요소를 의미
+            // 찾아서(selector) 조작해라(여기서는 디자인적인 속성)
+            // 이 문서상의 모든 text의 색상을 red로 적용해라
+            $('*').css('color','red');
+
+            // 2. 요소명으로 : 문서상에 존재하는 모든 요소를 찾을때 사용 => list
+            $('div').css('color','blue');
+
+            // 3. #id로 : 문서상 고유한 속성, 특정 요소, 특정값은 한 요소에만 적용
+            //          문서상에서 id값은 고유하므로
+            $('#mul').css('color','pink'); // #을 앞에 붙여서 요소랑 다르게 id라는걸 말해줌
+
+            // 4. . : class를 의미, 클래스는 여러 요소에 공통된 스타일을 적용할때 사용하는 속성
+            // 여러개가 중복돼도 됨
+            $('.s1').css('color','black')
+
+            // 조합1 - 요소명#아이디, 요소명.class명
+            // div 요소들 중에 class가 s1인 요소만 찾아서 글자색을 yellow
+            $('div.s1').css('color','yellow')
+
+            // 열거 - 찾고 싶으 대상을 나열 ,을 구분으로
+            $('p,span,div.s1').css('color','green')
+
+        </script>
+    </body>
+</html>

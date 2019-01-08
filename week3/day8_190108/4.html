@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3
+                <ol>
+                    <li>4</li>
+                    <li>5</li>
+                    <li>6</li>
+                </ol>
+            </li>
+        </ul>
+        <input type = 'text' name='uid'/>
+        <input type = 'text' name='pwd'/>
+        <script>
+            $('*').css('color','black');
+            // 자식과 후손
+            // > : 자식(직계)
+            $('ul>li').css('color','red');
+            // 한칸띄기 : 후손이 자식을 포함하는지?
+            $('ul li').css('color','pink');
+
+            // uid 입력받는 쪽의 배경을 red로 하시오
+            // 여러개가 존재하는데 속성의 값 외에는 차이점이 없다
+            // 속성 selcetor : [속성명=값]
+            $('[name=uid]').css('background','red');
+
+            // 의사결정 셀렉터
+            // 요소명 : 함수,키워드,
+            // trade.html 적용
+
+        </script>
+    </body>
+</html>

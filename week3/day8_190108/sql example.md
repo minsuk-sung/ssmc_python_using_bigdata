@@ -1,18 +1,32 @@
-로그인 쿼리 ->회원인지 아닌지 체크
+# MySQL 간단한 사용방법
 
-회원이면 회원 데이터도 같이 보내는(추가)  
-`*` 는 모든 컬럼을 다 가져오는 행위이므로
+---
 
-데이터가 많고 컬럼이 많으면 성능저하 원인
+## 시작하기 앞서
 
-실제는 필요한것만 가져온다
+### Sequel Pro
+macOS에서 진행을 할 때, DB를 관리하는 툴로 `Sequel Pro`를 사용했다. 그리고 MySQL 말고 필자는 `MariaDB`로 넘어갔다. 
+( 여담이지만, MySQL 문제인지 macOS의 문제인지 아니면 해당 어플리케이션의 문제인지는 모르겠으나, 자꾸 충돌이 일어나 제대로 작동을 안해서 애를 좀 먹었다. )
+
+### SQL 파일 실행하기
+아래 명령어를 통해서 테이블 생성과 데이터 입력까지 마친다.
+```
+mysql -u root -p
+use python_db
+mariaDB [(none)] > source /root/Desktop/test.sql 
+```
 
 ---
 
 ## 조회
 ### users 테이블
+회원이면 회원 데이터도 같이 보내는(추가)  
+`*` 는 모든 컬럼을 다 가져오는 행위이므로
+
+데이터가 많고 컬럼이 많으면 성능저하 원인
+실제는 필요한것만 가져온다
 ```
-select *from users;
+select * from users;
 ```
 특정 아이디와 특정 비번에 해당 되는 row 데이터
 
@@ -76,5 +90,4 @@ select name, code, cur from tbl_trade where name like'%삼%'
 select name, code, cur from tbl_trade where name like'삼%'
 ```
 
-
-## 조인(inner Left,..), 유니온
+## 조인(inner Left,..), 유니온 등등

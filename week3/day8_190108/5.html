@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="5.js"></script>
+    </head>
+    <body>
+        <button onclick='javascript:alert("호출");'>Click</button>
+        <button id='b1'>Click2</button>
+
+        <!-- DOM 조작 예
+            버튼을 누르면 데이터 수집이란 글자가 데이터 전처리로 변경
+            화면이 바뀐다는 것은 문서가 바뀐다는 것과 동의어
+            화면을 다르게 보여준다 html을 동적으로 바뀌게 해준다
+            이런걸로 통해서 나중에 네이버 검색창에서 뭔가를 입력하면 ajax통신으로 서버 갔다와서 자동완성이 되는거...
+        
+            입력창에 글자를 넣고 DOM 조작을 누르면 데이터 수집 => 입력내용이 보인다.-->
+        <input type='text' name='keyword'/>
+        <button id='b2'>DOM 조작</button>
+        <button id='b3'>DOM 조작2</button>
+        <div>데이터 수집</div>
+
+        <script>
+            // id가 b1인 요소를 찾아서 클릭 이벤트를 연결한다
+            $('#b1').on('click',function(){ // click이란 이벤트
+                console.log('10');
+                // 페이지 이동
+                document.location.href = 'http://www.naver.com';
+            });
+
+            $('#b2').on('click',function(){ // click이란 이벤트
+                // 데이터 수집이라는 텍스트를 가진 요소를 찾아서 텍스트를 수정
+                // 하위 내용을 지운다(비운다)
+                $('div').empty();
+                // 새로운 내용을 채운다
+                $('div').append('데이터 전처리');
+            });
+
+            $('#b3').on('click',function(){ // click이란 이벤트
+                var keyword = $('[name=keyword]').val();
+                $('div').empty();
+                $('div').append(keyword);
+            });
+        </script>
+    </body>
+</html>
+
