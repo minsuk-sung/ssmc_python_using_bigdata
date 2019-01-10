@@ -1,4 +1,12 @@
 <script>
     alert('{{ msg }}');
-    history.back();
+
+    // 경고창 뜨고 확인 누르면
+    {% if url: %}
+        // 페이지 이동
+        document.location.href = '{{url}}'
+    {% else: %}
+        // 이전 페이지로 돌아감
+        history.back();
+    {% endif %}
 </script>

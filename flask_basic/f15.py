@@ -67,6 +67,24 @@ def info(code):
     return render_template('info.html', trade = selectOneStockInfo(code),
                                         update = request.args.get('update'))
 
+# 종목 정보 수정하기
+@app.route('/updateStock',methods=['POST'])
+def updateStock():
+    # 1. 파라미터 획득
+    # print(request.form) # ImutableMultiDict([('cur','1')('rate','10')]) <- list,tuple...dict이 아님
+    # 2. 쿼리 수행
+
+    # 3. 수행 결과 판단
+    #   수정이 성공하면 -> /info/code 화면으로
+    if updateStockInfo(request.form):
+        return render_template('error.html',msg='수정완료',
+                                            url='/info/' + request.form['code'])
+    #   수정이 실패하면 -> 경고창 띄우고 되돌아가기
+    else:
+        return render_template('error.html',msg='수정실패')
+    # return "%s"  % updateStockInfo(request.form)
+    
+
 # 이 코드를 메인으로 구동시 서버가동
 if __name__ == '__main__':
     app.run(debug=True) 

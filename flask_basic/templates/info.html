@@ -4,60 +4,64 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
     <body>
-        {# 쿼리문에서 가져온 데이터 #}
-        <div>
-            <table border="1" cellspacing = "0" >
-                    <caption>상세정보 - {{trade['name']}}</caption>
-                    <h3>
-                        <!--
-                            정보를 보는 화면에서는 수젇ㅇ하기 링크
-                            수정하는 화면에서는 실제 수정하는 액션이 진행되야 한다.
-                            이름은 수정으로
-                        -->
-                        {% if update == 'Y': %}
-                            <a href="/updateStock">수정</a>
-                            <button onclick="historyback();">뒤로가기</button>
-                        {% else  %}
-                            <a href="?update=Y">수정하기</a>
-                        {% endif %}
-                        <a href="/deleteStock?code={{trade['code']}}">삭제하기</a>
-                        <a href="/insertStock">종목추가</a>
-                    </h3>
-                    <tbody>
-                        {#
-                            - cur(현재가),rate만 수정이 가능하다고 하자
-                            - 수정하는 화면에서는 입력창에 현재 최종 정보가 표시된다
-                                - update가 Y일때만 해당
-                                - input 태그 사용,type은 number가 적합(text라고 가정)
-                            - 전체를 일단 input안으로 넣자
-                            - 사용자는 수치값을 변경할 수 있다
-                            - 값을 변경 후 수정 버튼을 누르면 수정된다(/updateStock)
-                                - post방식 사용
-                            - 수정 후 다시 미리보기 화면으로 오고, 이때 데이터를 다시 읽어와서 수정된 최종 정보로 표시된다
-                        #}
-                        {% for key in trade: %}
-                            <tr>
-                                <td>{{key}}</td>
-                                <td>
-                                <!--
-                                아래와 같이 할수도 있지만
-                                {% if key == 'cur' or key == 'rate': %}
-                                    <input type="text" name="{{key}}" value="{{trade[key]}}" >  
-                                {% else %}
-                                    <input type="text" name="{{key}}" value="{{trade[key]}}" disabled>
-                                {% endif %}
-                                -->
-                                <input type="text" name="{{key}}" value="{{trade[key]}}"
-                                    {{ '' if key == 'cur' or key =='rate' else 'disabled' }}/>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
+        <form  action = "/updateStock" method="POST">
+            {# 쿼리문에서 가져온 데이터 #}
+            <div>
+                <table border="1" cellspacing = "0" >
+                        <caption>상세정보 - {{trade['name']}}</caption>
+                        <h3>
+                            <!--
+                                정보를 보는 화면에서는 수젇ㅇ하기 링크
+                                수정하는 화면에서는 실제 수정하는 액션이 진행되야 한다.
+                                이름은 수정으로
+                            -->
+                            {% if update == 'Y': %}
+                                <button onclick='history.back()'>뒤로가기</button>
+                                <!-- <a href="/updateStock">수정</a> -->
+                                <input type='hidden' name="code" value="{{trade['code']}}"/>
+                                <input type='submit' value="수정">
+                                
+                            {% else  %}
+                                <a href="?update=Y">수정하기</a>
+                            {% endif %}
+                            <a href="/deleteStock?code={{trade['code']}}">삭제하기</a>
+                            <a href="/insertStock">종목추가</a>
+                        </h3>
+                        <tbody>
+                            {#
+                                - cur(현재가),rate만 수정이 가능하다고 하자
+                                - 수정하는 화면에서는 입력창에 현재 최종 정보가 표시된다
+                                    - update가 Y일때만 해당
+                                    - input 태그 사용,type은 number가 적합(text라고 가정)
+                                - 전체를 일단 input안으로 넣자
+                                - 사용자는 수치값을 변경할 수 있다
+                                - 값을 변경 후 수정 버튼을 누르면 수정된다(/updateStock)
+                                    - post방식 사용
+                                - 수정 후 다시 미리보기 화면으로 오고, 이때 데이터를 다시 읽어와서 수정된 최종 정보로 표시된다
+                            #}
+                            {% for key in trade: %}
+                                <tr>
+                                    <td>{{key}}</td>
+                                    <td>
+                                    <!--
+                                    아래와 같이 할수도 있지만
+                                    {% if key == 'cur' or key == 'rate': %}
+                                        <input type="text" name="{{key}}" value="{{trade[key]}}" >  
+                                    {% else %}
+                                        <input type="text" name="{{key}}" value="{{trade[key]}}" disabled>
+                                    {% endif %}
+                                    -->
+                                    <input type="text" name="{{key}}" value="{{trade[key]}}"
+                                        {{ '' if key == 'cur' or key =='rate' else 'disabled' }}/>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
                 </table>
             </div>
-
-            <script>
-                $('tbody>tr:odd').css('background','yellow');
-            </script>
+        </form>
+        <script>
+            $('tbody>tr:odd').css('background','yellow');
+        </script>
     </body>
 </body>
