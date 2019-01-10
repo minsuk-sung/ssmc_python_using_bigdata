@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- 이렇게 include를 통해서 줄일 수 있음 -->
+    {% include 'mod/head.html' %}
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'mod/left.html' %}
+            <!-- /.navbar-header -->
+
+            {% include 'mod/right.html' %}
+            <!-- /.navbar-top-links -->
+
+            {% include 'mod/menu.html' %}
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            {% include 'sub/tradeList_sub.html' %}
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    {% include ['mod/foot.html','a.html','b.html'] ignore missing %}
+
+</body>
+
+</html>

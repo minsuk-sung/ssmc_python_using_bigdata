@@ -1,0 +1,127 @@
+<div class="row">
+    <div class="col-lg-12"> {#가로를 12개로 쪼갠거#}
+        <h1 class="page-header">주식목록</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+   
+    {# 검색창 #}
+    <div>
+        <fieldset> {# 공간을 좀 주기 위해서 #}
+            <form method="POST" id="searchform" {# 주소가 필요함 #}>
+                <input type="search" name="keyword" placeholder="종목 이름을 입력하세요." required>
+                <input type = "submit" value="검색"/>
+            </form>
+            {# 검색결과는 id가 result인 요소의 자식으로 들어간다 #}
+            <div id="result">
+                <!-- <li>동화약품(000020)</li>
+                <li>동화약품(000020)</li> -->
+                
+            </div>
+        </fieldset>
+    </div>
+    
+    {# 쿼리문에서 가져온 데이터 #}
+    <div>
+        <table border="1" cellspacing = "0" width = "100%">
+            <caption>주식목록</caption>
+            <thead>
+                {# 코드 이름 현재가 상한가 최저가 #}
+                <th>코드</th>
+                <th>이름</th>
+                <th>현재가</th>
+                <th>상한가</th>
+                <th>최저가</th>
+            </thead>
+            <tbody>
+                {% for trade in trades %}
+                    <tr>
+                        <td>{{trade['code']}}</td>
+                        <td>{{trade['name']}}</td>
+                        <td>{{trade['cur']}}</td>
+                        <td>{{trade['high']}}</td>
+                        <td>{{trade['low']}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {#  #}
+    <script>
+        // 검색버튼을 누르면 form태그 안에서는 submit 이벤트
+        // submit 이벤트를 잡아서, form 전송을 하지 않게 무효화
+        $('#searchform').on('submit',(e)=>{  // "function (){}" == "()=>{}"
+
+            e.preventDefault(); // submit 이벤트 무효처리
+            console.log('검색');
+
+            // 그리고나서, ajax를 구현하여 응답 받으면 된다
+            // ajax : 비동기 통신 원래 XML을 주고 받기 위해서 만들어졌으나
+            // 지금은 json을 주고 받는데 더 많이 사용된다
+            // xml,json은 txt파일이고 서로 동일하지 않은 플랫폼 간에 데이터 포맷으로 사용된다
+            var keyword = 'keyword=' + $('[name=keyword]').val();
+            $.ajax({
+                url:"/search", // 서버주소...보안의 이유로 동일 도메인에서만 http://127.0.0.1/ 생략해도 됨
+                type:'post', // 데이터 전달 방식
+                data:keyword, // 전달한 데이터
+                dataType:"json", //응답 데이터 포맷
+                success:(data)=>{
+                    console.log('성공',data);
+                    // 화면처리
+                    showResult(data);
+                }, // 이게 함수라니...암튼 성공하면 이쪽으로 응답
+                error:(err)=>{
+                    console.log('실패',err);
+                } // 실패하면 이쪽으로 응답
+            }); // js는 {}가 객체
+
+            return false; // 이벤트 실패를 의미
+        });
+        
+        
+        // 검색 경로가 화면 처리
+        function showResult(data){
+            // 기존 결과를 삭제
+            $('#result').empty();
+
+            // 검색어 획득
+            const keyword = $('[name=keyword]').val();
+            
+            // 신규 결과를 추가
+            $.each(data,(idx,item)=>{ // each를 쓰면 반복문같이...
+                //console.log(idx,item);
+                var html = `<li>${item.name}(${item.code})</li>`; // `와 ' 혼동주의
+                // 검색어를 볼드체로 바꾸자
+                html = html.replace(keyword,`<b>${keyword}</b>`);
+                console.log(html);
+                $('#result').append(html);
+                // 지금 바로 추가된 요소 => 막내
+                $('#result>li:last').on('click',()=>{  // 이벤트 걸자
+                    //alert(`선택종목 : ${item.name}`);
+                    document.location.href = '/info/' + item.code;
+                });
+            });
+
+            // 검색어 삭제
+            $('[name=keyword]').val(''); // val함수에 파라미터로 뭔가를 넣으면 됨
+        }
+
+        ////////////////////////////////////////////////////////////
+        // 화면처리
+        ////////////////////////////////////////////////////////////
+        // 의사결정 selector
+        // tr들 중에서 첫째 :: 이건 이 문서상에 존재하는 모든 tr을 모아서 그 중 첫번째
+        $('tr:first').css('color','red');
+        // 동화약품의 배경색을 다른 색으로
+        // 주식 정보를 가진 tr들을 다 모아서 그 중에서 첫번째
+        // tbody 밑에 직계자식 모든 tr
+        // 처음
+        //$('tbody>tr:first').css('background','blue');
+        // 마지막
+        $('tbody>tr:last').css('background','lightgreen');
+        // 짝수
+        //$('tbody>tr:even').css('background','pink');
+        // 홀수
+        $('tbody>tr:odd').css('background','yellow');
+    </script>
+</div>

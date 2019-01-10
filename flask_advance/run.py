@@ -12,7 +12,7 @@
     4. 세션,쿠키 처리 ( 로그인 업그레이드 )
 '''  
 
-from flask import Flask,render_template,url_for,request,redirect,session
+from flask import Flask,render_template,url_for,request,redirect,session,json,jsonify
 from db.sql import *
 
 app = Flask(__name__)
@@ -20,12 +20,15 @@ app.secret_key = 'aslkdfjklsdsdflkjs'
 
 # 세션 생성, 해체, 체크
 
+########################################################
 
 config = {
     'site_title' : '점심 메뉴 분석',
     'menu1' : '오늘의 코스닥 지수 : 150',
     'login' : '로그인'
 }
+
+########################################################
 
 @app.route('/')
 def home():
@@ -34,6 +37,8 @@ def home():
     if not 'user_id' in session:
         return redirect(url_for('login'))
     return render_template('index.html',config=config)
+
+########################################################
 
 @app.route('/logout')
 def logout():
@@ -46,6 +51,8 @@ def logout():
     # 홈페이지 이동 
     # return render_template('logout.html',config=config)
     return redirect(url_for('login'))
+
+########################################################
 
 # restful 방식
 # get방식과 post방식을 모두 허용하는 라우트 정의  
@@ -74,6 +81,33 @@ def login():
             return redirect(url_for('home'))
         else :
             return render_template('error.html',msg = '아이디 혹은 비밀번호를 확인해주세요.')
+
+########################################################
+
+@app.route('/tradeList')
+def tradeList():
+    return render_template('sub/tradeList.html',config=config,
+                                                trades = selectTradeData())
+
+########################################################
+
+@app.route('/search',methods=['POST'])
+def search():
+    # 검색어 획득
+    keyword = request.form['keyword']
+    # 검색 쿼리 수행
+    rows = selectStockByKeyword(keyword)
+    #print(rows)
+
+    # 검색 결과가 있으면(성공) json 형식으로 응답
+    if rows:
+        return jsonify(rows)
+
+    # 검색 결과가 없으면(실패) json의 다른 형태로 응답
+    else:
+        return jsonify([])
+
+########################################################
 
 # 이 코드를 메인으로 구동시 서버가동
 if __name__ == '__main__':
