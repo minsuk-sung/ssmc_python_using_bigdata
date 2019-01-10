@@ -24,7 +24,18 @@
                             {% else  %}
                                 <a href="?update=Y">수정하기</a>
                             {% endif %}
-                            <a href="/deleteStock?code={{trade['code']}}">삭제하기</a>
+                            <!-- 태그 속성에 js를 직접 기술하는 방식 : inline 방식 -->
+                            <a href= '#' onclick="onDelet()" >삭제하기</a>
+                            <script>
+                                function onDelet(){
+
+                                    // 삭제할거냐고 물어보는 것
+                                    if (confirm('삭제하시겠습니까?')){
+                                        // 처음 홈페이지로 돌아옴
+                                        document.location.href = "/deleteStock?code={{trade['code']}}"
+                                    }
+                                }
+                            </script>
                             <a href="/insertStock">종목추가</a>
                         </h3>
                         <tbody>

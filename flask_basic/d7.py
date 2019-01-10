@@ -175,6 +175,39 @@ def updateStockInfo(stock):
             connection.close()
     return result
 
+################################################
+# 삭제하기
+################################################ 
+def deleteStockInfo(code):
+    connection = None
+    result       = None # 수정결과
+    try:
+        connection = pms.connect(host='localhost', # 디비 주소
+                            user='root',      # 디비 접속 계정
+                            password='12341234', # 디지 접속 비번
+                            db='python_db',   # 데이터베이스 이름
+                            #port=3306,        # 포트     
+                            charset='utf8',
+                            cursorclass=pms.cursors.DictCursor) # 커서타입지정
+        # 쿼리수행
+        with connection.cursor() as cursor:            
+            sql    = '''
+                DELETE
+                FROM tbl_trade
+                WHERE code = %s
+            '''
+            cursor.execute( sql,code )
+            
+        connection.commit()
+        result = connection.affected_rows() 
+        
+    except Exception as e:
+        print('->', e)
+        result = 0
+    finally:
+        if connection:
+            connection.close()
+    return result    
 
 if __name__ == '__main__':
     # print( '=>', loginSql( 'm', '1' ) )
@@ -187,9 +220,10 @@ if __name__ == '__main__':
     # key = 'cur'
     # result = 'dd' if key == 'cur' or key =='rate' else 'disable'
     # print(result)
-    dic = {
-        'cur' : '234234', # 9170
-        'rate' : '2343', # 330
-        'code' : '000020'
-    }
-    print('성공' if updateStockInfo(dic) else '실패')
+    # dic = {
+    #     'cur' : '234234', # 9170
+    #     'rate' : '2343', # 330
+    #     'code' : '000020'
+    # }
+    # print('성공' if updateStockInfo(dic) else '실패')
+    print(deleteStockInfo('000030'))

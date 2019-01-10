@@ -19,7 +19,7 @@
 title-wrapper > h3 > ytd-badge-supported
 '''
 
-from flask import Flask,render_template,request,json, jsonify
+from flask import Flask,render_template,request,json, jsonify, url_for, redirect
 # from d7 import selectTradeData,selectStockByKeyword,selectStockByCode
 from d7 import *
 
@@ -78,12 +78,26 @@ def updateStock():
     #   수정이 성공하면 -> /info/code 화면으로
     if updateStockInfo(request.form):
         return render_template('error.html',msg='수정완료',
-                                            url='/info/' + request.form['code'])
+                                            url = url_for('info',code=request.form['code'])) # 주소가 바뀌었을때도 자동 대응하기 위해서
+                                            #url='/info/' + request.form['code'])
     #   수정이 실패하면 -> 경고창 띄우고 되돌아가기
     else:
         return render_template('error.html',msg='수정실패')
     # return "%s"  % updateStockInfo(request.form)
     
+
+@app.route('/deleteStock')
+def deleteStock():
+    # 파라미터 획득
+    code = request.args.get('code')
+    # 삭제처리
+    if deleteStockInfo(code):
+        return render_template('error.html',msg='삭제완료',
+                                            url = url_for('home'))        
+    # 홈페이지로 이동
+    #return redirect(url_for('home'))
+    else:
+        return render_template('error.html',msg='삭제실패')
 
 # 이 코드를 메인으로 구동시 서버가동
 if __name__ == '__main__':
