@@ -3,47 +3,59 @@
         <h1 class="page-header">주식목록</h1>
     </div>
     <!-- /.col-lg-12 -->
-   
-    {# 검색창 #}
-    <div>
-        <fieldset> {# 공간을 좀 주기 위해서 #}
-            <form method="POST" id="searchform" {# 주소가 필요함 #}>
-                <input type="search" name="keyword" placeholder="종목 이름을 입력하세요." required>
-                <input type = "submit" value="검색"/>
-            </form>
-            {# 검색결과는 id가 result인 요소의 자식으로 들어간다 #}
-            <div id="result">
-                <!-- <li>동화약품(000020)</li>
-                <li>동화약품(000020)</li> -->
-                
-            </div>
-        </fieldset>
-    </div>
     
-    {# 쿼리문에서 가져온 데이터 #}
-    <div>
-        <table border="1" cellspacing = "0" width = "100%">
-            <caption>주식목록</caption>
-            <thead>
-                {# 코드 이름 현재가 상한가 최저가 #}
-                <th>코드</th>
-                <th>이름</th>
-                <th>현재가</th>
-                <th>상한가</th>
-                <th>최저가</th>
-            </thead>
-            <tbody>
-                {% for trade in trades %}
-                    <tr>
-                        <td>{{trade['code']}}</td>
-                        <td>{{trade['name']}}</td>
-                        <td>{{trade['cur']}}</td>
-                        <td>{{trade['high']}}</td>
-                        <td>{{trade['low']}}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                상위 10개 주식 목록
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        
+                        {# 검색창 #}
+                        <div>
+                            <fieldset> {# 공간을 좀 주기 위해서 #}
+                                <form method="POST" id="searchform" {# 주소가 필요함 #}>
+                                    <input type="search" name="keyword" placeholder="종목 이름을 입력하세요." required>
+                                    <input type = "submit" value="검색"/>
+                                </form>
+                                {# 검색결과는 id가 result인 요소의 자식으로 들어간다 #}
+                                <div id="result">
+                                    <!-- <li>동화약품(000020)</li>
+                                    <li>동화약품(000020)</li> -->
+                                    
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <thead>
+                            {# 코드 이름 현재가 상한가 최저가 #}
+                            <th>코드</th>
+                            <th>이름</th>
+                            <th>현재가</th>
+                            <th>상한가</th>
+                            <th>최저가</th>
+                        </thead>
+                        <tbody>
+                            {% for trade in trades %}
+                            <tr>
+                                <td>{{trade['code']}}</td>
+                                <td>{{trade['name']}}</td>
+                                <td>{{trade['cur']}}</td>
+                                <td>{{trade['high']}}</td>
+                                <td>{{trade['low']}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
     </div>
 
     {#  #}
