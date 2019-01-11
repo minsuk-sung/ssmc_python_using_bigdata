@@ -23,9 +23,10 @@ app.secret_key = 'aslkdfjklsdsdflkjs'
 ########################################################
 
 config = {
-    'site_title' : '점심 메뉴 분석',
-    'menu1' : '오늘의 코스닥 지수 : 150',
-    'login' : '로그인'
+    'site_title' : 'MS Stock Site',
+    'menu1' : 'Check or Search Stock',
+    'menu2' : 'File Upload',
+    'login' : 'Login'
 }
 
 ########################################################
@@ -106,6 +107,12 @@ def search():
     # 검색 결과가 없으면(실패) json의 다른 형태로 응답
     else:
         return jsonify([])
+
+########################################################
+
+@app.route('/uploadPhoto',methods=['POST'])
+def upload():
+    return render_template('')
 
 ########################################################
 
