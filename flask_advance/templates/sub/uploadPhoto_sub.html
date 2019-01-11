@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-lg-12">
         
-        <h1 class="page-header"> FILE UPLOAD TEST </h1>
+        <h1 class="page-header"> 게시판 구현하기 </h1>
 
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    File Upload
+                    게시글 쓰기
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -14,15 +14,15 @@
                         {#  #}
                         <form method='POST' enctype="multipart/form-data">
                             <!-- 제목 -->
-                            <input class="form-control" type="text" name="title" placeholder="Title">
+                            <input class="form-control" type="text" name="title" placeholder="Title" required>
                             <!-- 내용 -->
-                            <textarea class="form-control" name="content" cols="30" rows="10" placeholder="Content"></textarea>
+                            <textarea class="form-control" name="content" cols="30" rows="10" placeholder="Content" required></textarea>
                             <!-- 작성자(데이터 숨어서 전달 자동) -->
                             <input type="hidden" name="author" value="">
                             <!-- 작성일(디비에서 자동으로) -->
                             <!-- 파일 -->
-                            <input class="form-control" type="file" multiple="multiple" name="fileData" placeholder="파일첨부">
-                            <input class="btn btn-primary" type="submit" value="Upload">
+                            <input class="form-control" type="file" multiple="multiple" name="fileData" placeholder="파일첨부" >
+                            <input class="btn btn-primary" type="submit" value="Upload" >
                         </form>
                     </fieldset>
                 </div>
@@ -31,14 +31,63 @@
             <!-- /.panel -->
         </div>
         
-        <div class="col-lg-6">
+        <!-- 
+            파일 업로드 및 리스트 화면 
+            - tbl_fileBbs 테이블에서 최신순으로 10개만 가져와서 리스트로 뿌린다
+            - 새글 등록 후
+                - 성공하면 다시 이 화면으로 와서 등록된 것을 볼 수 있음
+            - 화면 컬럼 id|제목|사진(존재하는만큼)
+                - 사진 : <img src='abc.jpg' height=50/>
+         -->
+        <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    자료실 게시판
+                    실시간 게시판
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    내용
+                    <table id='info' class="table table-striped table-bordered table-hover">
+                        {# 어떤 정보가 있는지 컬럼 확인 #}
+                        <thead>
+                            <th>ID</th>
+                            <th>제목</th>
+                            <th>내용</th>
+                            <th>자료</th>
+                            <th>작성일</th>
+                        </thead>
+                        
+                        <tbody>
+                            {% for item in items: %}
+                            <tr>
+                                <td>{{item['id']}}</td>
+                                <td>{{item['title']}}</td>
+                                <td>{{item['content']}}</td>
+                                <td>
+                                    <!-- 파일이 존재하면 -->
+                                    {% if item['files']: %}
+                                        <!-- 파일이 이미지라면 -->
+                                        <!-- 
+                                            사실 확장자 . 이 없는 경우가 있지만 여기선 무시
+                                            파일의 mime 타입을 조사하여 image/xxx 로 되는 것은 원래 다 이미지
+                                            이걸 체크하는 것이 본질적인 처리 방식
+                                         -->
+                                        {% if item['files'].split('.')[-1] in ['png','jpg','jpeg','gif'] : %}
+                                            <!-- 가지고 있는 이미지 모두 가져와라 -->
+                                            {% for t in item['files'].split('|'): %}
+                                                <img src="./static/upload/{{t}}" height="60">
+                                            {% endfor %}
+                                        <!-- 파일이 이미지가 아니라면  -->
+                                        {% else:  %}
+                                            <a href="./static/upload/{{item['files']}}">다운로드</a>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td>{{item['regDate']}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
                 </div>
                 <!-- /.panel-body -->
             </div>

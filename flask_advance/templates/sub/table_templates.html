@@ -1,0 +1,34 @@
+<div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            자료실 게시판
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <table id='info' class="table table-striped table-bordered table-hover">
+                {# 어떤 정보가 있는지 컬럼 확인 #}
+                <thead>
+                    <th>ID</th>
+                    <th>제목</th>
+                    <th>사진</th>
+                </thead>
+                
+                {# 주식목록들 #}
+                <tbody>
+                    {% for trade in trades %}
+                    <tr>
+                        <td>{{trade['code']}}</td>
+                        <td>{{trade['name']}}</td>
+                        <td>{{trade['cur']}}</td>
+                        <td>{{trade['high']}}</td>
+                        <td>{{trade['low']}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+</div>

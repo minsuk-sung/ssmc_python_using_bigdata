@@ -104,6 +104,35 @@ def selectStockByKeyword(keyword):
             connection.close()
     return rows
 
+def selectFileData():
+    connection = None
+    rows       = None # 주식정보들을 담는 변수
+    try:
+        connection = pms.connect(host='localhost', # 디비 주소
+                            user='root',      # 디비 접속 계정
+                            password='12341234', # 디지 접속 비번
+                            db='python_db',   # 데이터베이스 이름
+                            #port=3306,        # 포트     
+                            charset='utf8',
+                            cursorclass=pms.cursors.DictCursor) # 커서타입지정
+        # 쿼리수행
+        with connection.cursor() as cursor:            
+            sql    = '''
+                SELECT * 
+                FROM tbl_fileBbs
+                ORDER BY id DESC LIMIT 10 ;
+            '''
+            cursor.execute( sql )
+            # 여러개 데이터를 다 가져올때
+            rows    = cursor.fetchall()            
+    except Exception as e:
+        print('->', e)
+        rows = None
+    finally:
+        if connection:
+            connection.close()
+    return rows
+
 # codd를 이용하여 해당 종목 정보 모두 가져오기
 def selectOneStockInfo(code):
     connection = None
@@ -209,6 +238,41 @@ def deleteStockInfo(code):
             connection.close()
     return result    
 
+################################################
+# 삽입하기
+################################################
+def insertFileData(info):
+    connection = None
+    result     = 0 # 수정결과
+    try:
+        connection = pms.connect(host='localhost', # 디비 주소
+                            user='root',      # 디비 접속 계정
+                            password='12341234', # 디지 접속 비번
+                            db='python_db',   # 데이터베이스 이름
+                            #port=3306,        # 포트     
+                            charset='utf8',
+                            cursorclass=pms.cursors.DictCursor) # 커서타입지정
+        # 쿼리수행
+        with connection.cursor() as cursor:            
+            sql    = '''
+                INSERT INTO tbl_fileBbs
+                (`title`,`content`,`author`,`files`)
+                VALUES
+                (%s,%s,%s,%s)
+            '''
+            cursor.execute( sql,tuple(info.values()) )
+            
+        connection.commit()
+        result = connection.affected_rows() # 1이 되야지 성공
+        
+    except Exception as e:
+        print('->', e)
+        result = 0
+    finally:
+        if connection:
+            connection.close()
+    return result
+
 if __name__ == '__main__':
     # print( '=>', loginSql( 'm', '1' ) )
     # rows = selectTradeData()
@@ -226,4 +290,4 @@ if __name__ == '__main__':
     #     'code' : '000020'
     # }
     # print('성공' if updateStockInfo(dic) else '실패')
-    print(deleteStockInfo('000030'))
+    print(selectFileData())

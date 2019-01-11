@@ -114,7 +114,10 @@ def search():
 @app.route('/uploadPhoto',methods=['GET','POST'])
 def uploadPhoto():
     if request.method == 'GET':
-        return render_template('sub/uploadPhoto.html',config=config)
+        rows = selectFileData() # GET으로 하는구나...
+        return render_template('sub/uploadPhoto.html',
+                                config=config,
+                                items=rows)
     else :
         # 딕셔너리 구조로
         # 디비에 들어갈 데이터를 준비
@@ -164,9 +167,17 @@ def uploadPhoto():
         print(dic)
 
         # 3. DB 입력처리
+        result = insertFileData( dic )
         # 성공하면 저장되었다고 -> 리스트로 이동
-        # 실패하면 실패되었다고하고 돌아가기 
-        return "파일 업로드 처리"
+        if result:
+            return render_template('error.html',
+                                    msg='등록성공',
+                                    url=url_for('uploadPhoto'))
+        # 실패하면 실패되었다고하고 돌아가기
+        else :
+            return render_template('error.html',msg='등록실패')
+        # return "%d개의 파일 업로드 처리" % result
+        
 
 ########################################################
 
