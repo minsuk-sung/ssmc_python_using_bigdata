@@ -14,6 +14,7 @@
 
 from flask import Flask,render_template,url_for,request,redirect,session,json,jsonify
 from db.sql import *
+import os
 
 app = Flask(__name__)
 app.secret_key = 'aslkdfjklsdsdflkjs'
@@ -69,7 +70,7 @@ def login():
         uid = request.form['uid']
         upw = request.form['upw']
         row = loginSql(uid,upw)
-        print( row, uid, upw )
+        # print( row, uid, upw )
         if row:
             # 세션 생성
             #   클라이언트 정보를 서버가 유지하거나 보관
@@ -110,9 +111,62 @@ def search():
 
 ########################################################
 
-@app.route('/uploadPhoto',methods=['POST'])
-def upload():
-    return render_template('')
+@app.route('/uploadPhoto',methods=['GET','POST'])
+def uploadPhoto():
+    if request.method == 'GET':
+        return render_template('sub/uploadPhoto.html',config=config)
+    else :
+        # 딕셔너리 구조로
+        # 디비에 들어갈 데이터를 준비
+        dic = dict() 
+
+        # 1. 전달된 데이터를 콘솔에 출력한다 ( 작성자 아이디 포함 )
+        print(request.form['title'])
+        print(request.form['content'])
+        print(session['user_id'])
+        
+        # 2. File 저장처리
+        # 파일 1개를 보냈을때 
+        # f = request.files['fileData']
+        # print(type(f),f)
+        # 파일 여러개를 보낼 경우 
+        tmp = list()
+        for f in request.files.getlist('fileData'): 
+            print(type(f),f, f.filename)
+            # 윈도우,리눅스 어떤 경로든 알아서 적용되게 구현해야한다
+            # 어디에 저장할 것인가? 정적 url을 제공하는 위치
+            # ~/static/upload
+            # 사용자별로 구분 -> 아이디를 폴더로 or 파일명에 아이디를 붙이기
+            # 동일파일 구분 -> 시간을 추가
+            # 궁극적인 해결방안 -> 중복되지 않는 해시값(16-32바이트)으로 이름변경 
+            # path = os.getcwd() + '/static/upload/' + f.filename
+            path = os.path.join( os.getcwd(),'static','upload',f.filename )
+            print(path) 
+            f.save(path)
+            # 파일명추가
+            tmp.append(f.filename)
+
+            # 디스크상 저장 위치
+            # /Users/minsuksung/github/ssmc_python_using_bigdata/flask_advance
+            # 웹경로상
+            # http://127.0.0.1:5000/static/upload/가니메데스.jpg
+            # 저장위치는 무조건 http://127.0.0.1:5000/ 고정
+            # 그렇다면 저장은 파일명만
+            # a.jpg | b.jpg | c.jpg ... 
+           
+            # 디비에 입력된 파일 정보를 출력
+            # 어떤 정보만 디비에 들어가면 되는지 고민해서 출력
+        
+        dic['title'] = request.form['title']
+        dic['content'] = request.form['content']
+        dic['author'] = session['user_id']
+        dic['files'] = '|'.join(tmp)
+        print(dic)
+
+        # 3. DB 입력처리
+        # 성공하면 저장되었다고 -> 리스트로 이동
+        # 실패하면 실패되었다고하고 돌아가기 
+        return "파일 업로드 처리"
 
 ########################################################
 

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- 이렇게 include를 통해서 줄일 수 있음 -->
+    {% include 'mod/head.html' %}
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'mod/left.html' %}
+            <!-- /.navbar-header -->
+
+            {% include 'mod/right.html' %}
+            <!-- /.navbar-top-links -->
+
+            {% include 'mod/menu.html' %}
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            {% include 'sub/uploadPhoto_sub.html' %}
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    {#
+        foot.html이 없으면 a.html을 찾고, 그게 없으면 b.html을 찾고...
+        ignore missing은 템플릿 파일이 실제로 없어도 오류를 보여주지 않는다.
+    #}
+    {% include ['mod/foot.html'] ignore missing %}
+
+</body>
+
+</html>
