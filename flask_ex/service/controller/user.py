@@ -25,4 +25,3 @@ def singup():
     dao.add(newUser)
     dao.commit() # DB에 새로 넣은거니까 업뎃
     return 'users signup'
-
