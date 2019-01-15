@@ -1,7 +1,7 @@
 related_doc/*
 
-./*/*.zip
-./*/*.tar
+*.zip
+*.tar
 
 ./flask_basic/__pycache__/
 
