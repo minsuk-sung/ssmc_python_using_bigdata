@@ -103,52 +103,102 @@ def test():
 
 ### 우분트 리눅스에서 flask로 만든 서비스 배포 밑 운영
 
-#### 1.버전 확인
- ubuntu> cat /etc/issue
-   : Ubuntu 18.04.1 LTS \n \l
+#### 1.터미널 혹은 PuTTY를 통해 접속 후 버전 확인
+```
+cat /etc/issue
+```
+Ubuntu 18.04.1 LTS \n \l
+
+---
+
 #### 2.파이썬 버전 확인
- ubuntu> python3 --version
-   : Python 3.6.5
+```
+python3 --version
+```
+Python 3.6.5
 
-#### 3.프로그램 설치
- - root 권한 획득 
-  ubuntu> sudo su
- - 권한을 빠져 나간다 => root 로그아웃
-  root> exit
- - 현재프럼프트는 
-  ubuntu>
- - ubuntu 계정에서 root 권한 명령으로 뭔가 하고 싶으면 (관리자 권한 실행)
-  ubuntu>sudo apt-get update 
-  ubuntu>sudo apt-get upgrade
-  ubuntu>sudo apt-get install python3-pip python3-dev nginx
-  ( nginx는 웹서버임 ( apache, ngninx 등등 ) )
+---
 
- - 가상환경구축 -> virtualenv 설치
-  >sudo pip3 install virtualenv
- - 가상환경을 만들 디렉토리
-  디렉토리 생성
-  >mkdir ~/flasksvr
-  디렉토리 이동
-  >cd ~/flasksvr
-  가상환경 생성
-  >virtualenv -p python3 flasksvrenv
-  가상환경 활성화
-  >source flasksvrenv/bin/activate
-  (flasksvrenv) ubuntu#~...$ 
+#### 3. 해당 서버에서 필요한 작업들
 
- - Fileziller를 이용하여 ftp 접속 및 파일 업로드 처리 가능
-   디렉토리 구조나 퍼미션 정보도 같이 볼수 있다
-  > 구글>검색>다운로드(프리버전)>설치 
-  > /home/ubuntu/flasksvr 밑에 flask_ex.tar 파일 업로드(드레그)
- 
- - 현재 설치 목록
-  ()>pip list
-  uwsgi => 운영관련 모듈
-  ()>pip install flask uwsgi
-  현재 위치 확인
-  ()> ls
-  파일 생성 -> 편집 -> vi, nano, vim등등 
-  ()> nano run.py
+##### root 권한 획득 
+```
+sudo su
+```
+
+##### 권한을 빠져 나간다 => root 로그아웃
+```
+exit
+```
+
+현재프럼프트는 아래와 같이 나올 것
+```
+ubuntu>
+```
+
+해당 계정에서 root 권한 명령으로 뭔가 하고 싶으면 (관리자 권한 실행하자)( nginx는 웹서버임 ( apache, ngninx 등등 ) )
+```
+ubuntu>sudo apt-get update 
+ubuntu>sudo apt-get upgrade
+ubuntu>sudo apt-get install python3-pip python3-dev nginx
+```
+
+##### 가상환경구축 : virtualenv 설치
+```
+sudo pip3 install virtualenv
+```
+
+##### 가상환경을 만들 디렉토리
+디렉토리 생성
+```
+mkdir ~/flasksvr
+```
+  
+디렉토리 이동
+```
+cd ~/flasksvr
+```
+
+가상환경 생성
+```
+virtualenv -p python3 flasksvrenv
+```
+
+가상환경 활성화
+```
+source flasksvrenv/bin/activate
+```
+활성화가 끝나면 아래와 같이 나온다
+```
+(flasksvrenv) ubuntu#~...$ 
+```
+
+#####  Fileziller를 이용하여 ftp 접속 및 파일 업로드 처리 가능
+디렉토리 구조나 퍼미션 정보도 같이 볼수 있다
+> 구글>검색>다운로드(프리버전)>설치 
+> /home/ubuntu/flasksvr 밑에 flask_ex.tar 파일 업로드(드레그)
+
+##### 현재 설치 목록
+```
+pip list
+```
+이 중에 uwsgi를 설치하여 aws서버에서 계속 돌아갈 수 있게 만들어주자
+uwsgi => 운영관련 모듈
+```
+pip install flask uwsgi
+```
+
+현재 위치 확인
+```
+ls
+```
+파일 생성 -> 편집 -> vi, nano, vim등등
+다음과 같이 run.py로 
+```
+nano run.py
+```
+
+아래와 같은 코드를 작성한다.
 ```python
 from flask import Flask
 
@@ -161,35 +211,51 @@ def home():
 if __name__ == '__main__':
     app.run(host='0.0.0.0')  
 ```
-  포트 5000번 오픈하고 실행
-  ()>sudo ufw allow 5000
-  ()>python run.py
+포트 5000번 오픈하고 실행
+```
+sudo ufw allow 5000
+python run.py
+```
 
-= 터미널을 닫고 나가면 서버가 종료되서 서비스가 중단된다
-= 서버 개발자가 항상 서버를 바라볼수 없으므로, 백그라운드에서 서비스가 구동
-= 되게 구성을 해야한다 => uwsgi 모듈을 이용하여 처리 + 서비스 구동 + nginx 연동
+터미널을 닫고 나가면 서버가 종료되서 서비스가 중단된다. 서버 개발자가 항상 서버를 바라볼수 없으므로, 백그라운드에서 서비스가 구동되게 구성을 해야한다  
+=> **uwsgi 모듈을 이용하여 처리 + 서비스 구동 + nginx 연동**
+
+---
 
 #### 4. uWSGI 구성
- - entry point 생성(진입로-> 서버의 시작점)
- ()>nano ~/flasksvr/wsgi.py
- ------------------------------
- from run import app
- if __name__ == '__main__':
-     app.run()
- ------------------------------
+entry point 생성(진입로-> 서버의 시작점)하기 위해 `wsgi.py`를 만들자. 
+```
+sudo nano ~/flasksvr/wsgi.py
+```
+그리고 아래와 같은 명령어를 작성하자
+```python
+from run import app
+if __name__ == '__main__':
+    app.run()
+```
  
- - 구동 (단독구동시)
- ()> uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
+##### 구동 (단독구동시)
+```
+uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
+```
 
- - flask 서버종료
- ()> ctrl + c
+##### flask 서버종료
+`ctrl + c`
 
- - 가상환경 나오기
- ()> deactivate
+##### 가상환경 나오기
+`deactivate`
+
+---
 
 #### 5. 서비스 구성을 위한 작업
- > nano ~/flasksvr/flasksvr.ini
---------------------------------------------
+서비스 구성을 위한 ini파일을 만들어보자
+```
+nano ~/flasksvr/flasksvr.ini
+```
+
+그리고 다음과 같은 내용을 작성하자
+```
+[uwsgi]
 module = wsgi:app
 
 master = true
@@ -200,12 +266,15 @@ chmod-socket = 660
 vacuum = true
 
 die-on-term = true
--------------------------------------------
+```
 
- - systemd unit file  생성
-   server 부팅될때 자동으로 uwsgi가 가동되서 서버가 정상운영된
- > sudo nano /etc/systemd/system/flasksvr.service
- ----------------------------------------------------------
+##### systemd unit file  생성
+server 부팅될때 자동으로 uwsgi가 가동되서 서버가 정상운영된다.
+```
+sudo nano /etc/systemd/system/flasksvr.service
+```
+다음과 같은 명령어를 친다.
+```
 [Unit]
 Description=uWSGI instance server
 After=network.target
@@ -219,20 +288,22 @@ ExecStart=/home/ubuntu/flasksvr/flasksvrenv/bin/uwsgi --ini flasksvr.ini
 
 [Install]
 WantedBy=multi-user.target
- ----------------------------------------------------------
+```
 
- nvironment="PATH=/home/ubuntu/flasksvr/flasksvrenv/bin"
-ExecStart=/home/ubuntu/flasksvr/flasksvrenv/bin/uwsgi --ini flasksvr.ini
-
-[Install]
-WantedBy=multi-user.target
- ----------------------------------------------------------
- - 실행 및 활성화
- > sudo systemctl start flasksvr
- > sudo systemctl enable flasksvr
+##### 실행 및 활성화
+생성한 flasksvr 서비스을 위해서 다음과 같은 명령어를 실행한다.
+```
+sudo systemctl start flasksvr
+sudo systemctl enable flasksvr
+```
 
 ##### nginx 연동처리
- > sudo nano /etc/nginx/sites-available/flasksvr
+nginx 연동을 위하여 다음과 같은 명령어를 진행하자
+```
+sudo nano /etc/nginx/sites-available/flasksvr
+```
+
+그리고 아래와 같은 내용을 작성하자
 ```
 server {
   listen 80;
@@ -245,35 +316,53 @@ server {
 }
 ```
 
----
+##### 링크설정
+```
+sudo ln -s /etc/nginx/sites-available/flasksvr /etc/nginx/sites-enabled
+```
 
-  - 링크설정
-  > sudo ln -s /etc/nginx/sites-available/flasksvr /etc/nginx/sites-enabled
+##### 설정에대한문법체크
+```
+sudo nginx -t
+```
 
- - 설정에대한문법체크
-  > sudo nginx -t
+##### nginx 재가동 
+```
+sudo systemctl restart nginx
+```
 
- - nginx 재가동 
-  > sudo systemctl restart nginx
+##### 링크설정
+```
+sudo ln -s /etc/nginx/sites-available/flasksvr /etc/nginx/sites-enabled
+```
 
- - 링크설정
-  > sudo ln -s /etc/nginx/sites-available/flasksvr /etc/nginx/sites-enabled
+##### 설정에대한문법체크
+```
+sudo nginx -t
+```
 
- - 설정에대한문법체크
-  > sudo nginx -t
+##### nginx 재가동 
+```
+sudo systemctl restart nginx
+```
 
- - nginx 재가동 
-  > sudo systemctl restart nginx
-
- - 5000포트닫고, nginx sevrer 접속허용
-  > sudo ufw delete allow 5000
-  > sudo ufw allow 'Nginx Full'
+##### 5000포트닫고, nginx sevrer 접속허용
+```
+sudo ufw delete allow 5000
+sudo ufw allow 'Nginx Full'
+```
  
- - 서비스로그 확인
- > systemctl -l status flasksvr
+##### 서비스로그 확인
+```
+systemctl -l status flasksvr
+```
  
- - 코드수정후명령
- > sudo systemctl restart flasksvr
+##### 코드수정후명령
+```
+sudo systemctl restart flasksvr
+```
  
- - nginx log
- > tail -f /var/log/nginx/error.log
+##### nginx log
+```
+tail -f /var/log/nginx/error.log
+```
