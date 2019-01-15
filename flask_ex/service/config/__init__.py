@@ -6,7 +6,7 @@ class DBConfig(object):
     멤버변수
     '''
     DB_TEST_URL   = '127.0.0.1' # DB TEST IP
-    DB_REAL_URL   = '' # DB REAL IP
+    DB_REAL_URL   = 'pythondb.c7zaeddgcy0u.ap-northeast-2.rds.amazonaws.com' # DB REAL IP
     DB_PORT       = 3306 # DB PORT
     DB_USER       = 'root' # 사용자 계정 - 원래는 root를 사용하면 안됨
     DB_PASSWORD   = '12341234' # 사용자 비번

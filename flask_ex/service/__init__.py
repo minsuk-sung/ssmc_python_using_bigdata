@@ -14,7 +14,7 @@ def create_app(config_path = './resource/config.cfg'):
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
     # 2. DB 설정
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #    
-    # initDBHelper(app) # Pooling
+    initDBHelper(app) # Pooling
     DBManager.init(app) # ORM
     DBManager.init_db()
 
