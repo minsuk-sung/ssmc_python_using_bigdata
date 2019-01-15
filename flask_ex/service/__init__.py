@@ -20,9 +20,12 @@ def create_app(config_path = './resource/config.cfg'):
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
     # 3. Error 설정
-    #   - 각종 오류 코드 발생시 일괄처리  
+    #   - 각종 오류 코드 발생시 일괄처리
+    #   - Not Found 같은걸 커스터마이징 하고 싶다면
+    #   - 위키피디아 가서 HTTP 응답코드 확인해보자  
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
-    
+    initErrorPage(app)
+
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
     # 4. 라우트 설정( 블루프린트 )
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
@@ -60,6 +63,11 @@ def initConfig(app,config_path):
 
 # 2. DB 설정
 # model에서 구현할 예정
+
+# 3. Error 설정
+def initErrorPage(app):
+    from service.error import not_found # ㄹㅇ 모듈 땡기기는 어디서든 가능하구나
+    app.register_error_handler(404,not_found) # 404라는 누가 처리할건지 함수도 적어줘야함
 
 # 4. 라우트 설정( 블루프린트 )
 def initBlueprint(app):

@@ -19,4 +19,4 @@ class Member(Base):
 
     # 클래스(객체)를 설명하는 함수
     def __repr__(self):
-        return "<Member %s %s>" % (self.uid,self.upw)
+        return "<Member %s %s %s>" % (self.id,self.uid,self.upw)
