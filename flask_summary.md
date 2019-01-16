@@ -307,7 +307,7 @@ sudo nano /etc/nginx/sites-available/flasksvr
 ```
 server {
   listen 80;
-  server_name 13.125.70.113;
+  server_name 54.180.153.100;
 
   location / {
     include uwsgi_params;
