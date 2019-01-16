@@ -5,6 +5,8 @@ related_doc/*
 
 ./flask_basic/__pycache__/
 
+api_key.md
+
 .DS_Store
 ./*/.DS_Store
 
