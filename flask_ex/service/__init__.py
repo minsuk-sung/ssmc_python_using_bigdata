@@ -1,5 +1,5 @@
 from flask import Flask,request,session,redirect,url_for
-from service.model import initDBHelper, DBManager
+from flask_ex.service.model import initDBHelper, DBManager
 
 def create_app(config_path = './resource/config.cfg'):
     app = Flask(__name__)
@@ -50,7 +50,7 @@ def initConfig(app,config_path):
     # class를 읽어서 객체로부터 환경변수를 획득 
     # -> 직관성, 코드에 적용되어 있음
     # 내 위치가 하위에 있다고 하더라도 from을 기술할때는 풀경로를 기술 
-    from service.config import DBConfig # 시작은 start.py이니까
+    from flask_ex.service.config import DBConfig # 시작은 start.py이니까
     app.config.from_object( DBConfig )
 
     # 로그된 환경변수값 확인
@@ -66,16 +66,16 @@ def initConfig(app,config_path):
 
 # 3. Error 설정
 def initErrorPage(app):
-    from service.error import not_found # ㄹㅇ 모듈 땡기기는 어디서든 가능하구나
+    from flask_ex.service.error import not_found # ㄹㅇ 모듈 땡기기는 어디서든 가능하구나
     app.register_error_handler(404,not_found) # 404라는 누가 처리할건지 함수도 적어줘야함
 
 # 4. 라우트 설정( 블루프린트 )
 def initBlueprint(app):
     #   - blueprint => 주제별로 페이지를 나눠서 개발가능 => controller
     #       - 회원관리 : ~/users/login, ~/users/logout, ~/users/signup
-    from service.controller import bp_users,bp_analysis
+    from flask_ex.service.controller import bp_users,bp_analysis
     #       - 분석관리 : ~/analysis/init, ~/analysis/proc, ~/analysis/sum    
-    from service.controller import user,ana # 해당 모듈이 통째로 메모리에 올라온다 -> 객체가 만들어지듯이 사용에 관계없음
+    from flask_ex.service.controller import user,ana # 해당 모듈이 통째로 메모리에 올라온다 -> 객체가 만들어지듯이 사용에 관계없음
     # blueprint를 Flask 객체에 등록
     # http://127.0.0.1:3000/users/login 로 접속해야함
     app.register_blueprint(bp_users, url_prefix='/users')

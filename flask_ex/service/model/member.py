@@ -1,5 +1,5 @@
 # member table과 연계되는 class
-from service.model import Base
+from flask_ex.service.model import Base
 from sqlalchemy import Column, Integer, String
 from enum import unique
 

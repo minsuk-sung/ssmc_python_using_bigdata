@@ -1,4 +1,4 @@
-from service import create_app # service 폴더 안에 __init__.py로 실행됨
+from flask_ex.service import create_app # service 폴더 안에 __init__.py로 실행됨
 
 # create_app가 Flask 객체를 리턴
 app = create_app()

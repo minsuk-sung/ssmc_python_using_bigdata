@@ -1,6 +1,6 @@
 ################################################################################
 # Pooling 방식
-from service.model.dbMgr import DBHelper
+from flask_ex.service.model.dbMgr import DBHelper
 db_session = None
 # 오직 1회만 호출되고, DB 연결도 총 100개의 세션 완성
 def initDBHelper(app):
@@ -56,6 +56,6 @@ class DBManager:
 
     @staticmethod
     def init_db():
-        from service.model import member
+        from flask_ex.service.model import member
         # 테이블이 없으면 만들어서 처리
         Base.metadata.create_all(bind=DBManager.__engine) # 테이블이 없으면 만들어서 처리해라
