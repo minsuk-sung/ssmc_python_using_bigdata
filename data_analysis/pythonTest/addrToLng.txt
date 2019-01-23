@@ -1,0 +1,21 @@
+import os
+import sys
+import urllib.request
+import json
+def addrToLatLng(s):
+    client_id = "ppihLuN2pr20zbkL0CAJ"
+    client_secret = "OJqch1hs7D"
+    encText = urllib.parse.quote(s)
+    url = "https://openapi.naver.com/v1/map/geocode?query=" + encText # json °á°ú
+    request = urllib.request.Request(url)
+    request.add_header("X-Naver-Client-Id",client_id)
+    request.add_header("X-Naver-Client-Secret",client_secret)
+    response = urllib.request.urlopen(request)
+    rescode = response.getcode()
+    if(rescode==200):
+        response_body = response.read()
+        aa= response_body.decode('utf-8') 
+        bb = json.loads(aa)
+        return bb['result']['items'][0]['point']
+    else:
+        return "Error Code:" + rescode
